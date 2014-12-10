@@ -1,0 +1,35 @@
+{
+  "name": "employee-wiki",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.0",
+    "body-parser": "~1.4.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.3.2",
+    "debug": "~1.0.2",
+    "express": "~4.4.5",
+    "express-flash": "0.0.2",
+    "express-session": "^1.9.1",
+    "jade": "~1.3.1",
+    "mongoose": "^3.8.19",
+    "mongoose-fixtures": "0.0.1",
+    "morgan": "~1.1.1",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
+    "serve-favicon": "~2.0.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-develop": "~0.4.0",
+    "grunt-wiredep": "^1.9.0",
+    "load-grunt-tasks": "~0.6.0",
+    "mocha": "^2.0.1",
+    "request": "~2.36.0",
+    "time-grunt": "~0.3.2"
+  }
+}
