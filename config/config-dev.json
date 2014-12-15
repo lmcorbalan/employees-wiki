@@ -1,0 +1,17 @@
+{
+  "app": {
+    "domain" : "127.0.0.1",
+    "port": 3200
+  },
+  "db": {
+    "domain" : "localhost",
+    "name" : "employees-wiki-dev",
+    "user" : "",
+    "pass" : ""
+  },
+  "cors": "enabled",
+  "fixtures": "enabled",
+  "session" : {
+    "secret" : "wild thing"
+  }
+}

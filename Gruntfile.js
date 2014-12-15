@@ -17,6 +17,15 @@ module.exports = function (grunt) {
         file: 'bin/www'
       }
     },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          clearRequireCache: true
+        },
+        src: ['test/unit/**/*.js']
+      },
+    },
     watch: {
       options: {
         nospawn: true,
@@ -47,6 +56,31 @@ module.exports = function (grunt) {
         options: {
           livereload: reloadPort
         }
+      },
+      bower: {
+        files: ['bower.json'],
+        tasks: ['wiredep']
+      },
+      tests: {
+        options: { livereload: 35729 },
+        files: ['./test/**/*.js'],
+        tasks: ['mochaTest']
+      },
+      scripts: {
+        options: {
+          livereload: 35729,
+          debounceDelay: 750
+        },
+        files: ['./app.js', './Gruntfile.js', './bin/www',
+        './models/*.js', './routes/*.js', './forms/*.js'],
+        // tasks: ['jshint','mochaTest','docco'],
+        tasks: ['mochaTest']
+      }
+    },
+    wiredep: {
+      target: {
+        src: ['views/layout.jade'],
+        ignorePath: '../public'
       }
     }
   });
@@ -54,6 +88,16 @@ module.exports = function (grunt) {
   grunt.config.requires('watch.server.files');
   files = grunt.config('watch.server.files');
   files = grunt.file.expand(files);
+
+  // On watch events, if the changed file is a test file then configure mochaTest to only
+  // run the tests from that file. Otherwise run all the tests
+  var defaultTestSrc = grunt.config('mochaTest.test.src');
+  grunt.event.on('watch', function(action, filepath) {
+    grunt.config('mochaTest.test.src', defaultTestSrc);
+    if (filepath.match('test/')) {
+      grunt.config('mochaTest.test.src', filepath);
+    }
+  });
 
   grunt.registerTask('delayed-livereload', 'Live reload after the node server has restarted.', function () {
     var done = this.async();
@@ -70,5 +114,5 @@ module.exports = function (grunt) {
     }, 500);
   });
 
-  grunt.registerTask('default', ['develop', 'watch']);
+  grunt.registerTask('default', 'mochaTest', ['develop', 'watch']);
 };

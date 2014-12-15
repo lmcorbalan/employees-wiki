@@ -1,14 +1,31 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+var express      = require('express');
+var path         = require('path');
+var favicon      = require('serve-favicon');
+var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var bodyParser   = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/user');
+var utils        = require('./utils');
+var config       = exports.config = require('./config');
+var session      = require('express-session')
+// var flash        = require('express-flash');
+var flash        = require('connect-flash');
+// var passport     = exports.passport = require('passport');
 
-var app = express();
+/**
+* Database Connection
+*/
+require('./utils/dbconnect');
+
+// DB Fixtures
+console.log(config.fixtures);
+if (config.fixtures && config.fixtures === "enabled") {
+  // Load Fixtures
+  require('./fixtures');
+}
+
+// Express App
+var app = exports.app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,11 +37,38 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/components')));
+app.use(session({ secret: config.session.secret, resave: true, saveUninitialized: true }))
+// app.use(passport.initialize());
+// app.use(passport.session());
+app.use(flash());
 
-app.use('/', routes);
-app.use('/users', users);
+// Connect Flash interceptor
+app.use( function(req, res, next) {
+  res.locals.user    = req.user;
+  var flash = req.flash();
+  res.locals.message = ! res.locals.message
+    ? flash
+    : Object.keys(flash).forEach( function (k) {
+      var v = flash[k];
+      ! res.locals.message[k]
+        ? res.locals.message[k].push(v)
+        : res.locals.message[k] = [v]
+
+    } )
+
+  console.log( 'message interceptor', res.locals.message );
+  next();
+});
+
+// require('./auth/local-strategy');
+
+// Routes
+// require('./routes/auth');
+// require('./routes/main');
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
