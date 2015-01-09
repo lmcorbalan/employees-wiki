@@ -68,7 +68,7 @@ app.use( function(req, res, next) {
 
 // Routes
 // require('./routes/auth');
-// require('./routes/main');
+require('./routes/main');
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

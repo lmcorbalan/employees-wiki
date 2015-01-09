@@ -5,12 +5,12 @@
   },
   "db": {
     "domain" : "localhost",
-    "name" : "employees-wiki-dev",
+    "name" : "employees-wiki-test",
     "user" : "",
     "pass" : ""
   },
   "cors": "enabled",
-  "fixtures": "enabled",
+  "fixtures": "disabled",
   "session" : {
     "secret" : "wild thing"
   }

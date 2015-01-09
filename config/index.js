@@ -7,9 +7,12 @@ switch (process.env.NODE_ENV) {
   case 'production':
     config = require('./config-prod.json');
     break;
+  case 'test':
+    config = require('./config-test.json');
+    break;
   default:
-    config = require('./config-local.json');
-    process.env.NODE_ENV = 'local';
+    config = require('./config-dev.json');
+    process.env.NODE_ENV = 'development';
   break;
 }
 

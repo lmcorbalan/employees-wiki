@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "node_modules/.bin/mocha -w"
   },
   "dependencies": {
     "bcrypt": "^0.8.0",
@@ -17,20 +18,25 @@
     "jade": "~1.3.1",
     "mongoose": "^3.8.19",
     "mongoose-fixtures": "0.0.1",
+    "mongoose-unique-validator": "^0.4.1",
+    "mongoose-validator": "^1.0.3",
     "morgan": "~1.1.1",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.0.1"
   },
   "devDependencies": {
+    "growl": "^1.8.1",
     "grunt": "~0.4.5",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-develop": "~0.4.0",
+    "grunt-env": "^0.4.2",
     "grunt-mocha-test": "^0.12.4",
     "grunt-wiredep": "^1.9.0",
     "load-grunt-tasks": "~0.6.0",
     "mocha": "^2.0.1",
     "request": "~2.36.0",
+    "should": "^4.4.2",
     "time-grunt": "~0.3.2"
   }
 }

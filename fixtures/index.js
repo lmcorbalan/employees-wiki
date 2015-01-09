@@ -14,8 +14,11 @@ switch(process.env.NODE_ENV) {
   case 'production':
     fixtureLoader.load('./prod');
   break;
+  case 'test':
+    fixtureLoader.load('./test');
+  break;
   default:
-    fixtureLoader.load('./local');
-    process.env.NODE_ENV = 'local';
+    fixtureLoader.load('./dev');
+    process.env.NODE_ENV = 'development';
   break;
 }

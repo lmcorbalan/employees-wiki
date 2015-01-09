@@ -94,7 +94,7 @@ module.exports = function (grunt) {
   var defaultTestSrc = grunt.config('mochaTest.test.src');
   grunt.event.on('watch', function(action, filepath) {
     grunt.config('mochaTest.test.src', defaultTestSrc);
-    if (filepath.match('test/')) {
+    if ( filepath.match('test/') && filepath !== 'test/utils/index.js' ) {
       grunt.config('mochaTest.test.src', filepath);
     }
   });
@@ -112,7 +112,7 @@ module.exports = function (grunt) {
           done(reloaded);
         });
     }, 500);
-  });
 
-  grunt.registerTask('default', 'mochaTest', ['develop', 'watch']);
+  });
+  grunt.registerTask('default', ['develop', 'watch']);
 };
