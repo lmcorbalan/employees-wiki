@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  form.form-signin(action='/admin',method='post' role='form')
+    h2.form-signin-heading= title
+    label.sr-only(for='inputEmail') Email
+    input#inputEmail.form-control(type='email', name="email", placeholder='Email', required='', autofocus='')
+    label.sr-only(for='inputPassword') Password
+    input#inputPassword.form-control(type='password', name="password", placeholder='Password', required='')
+    button.btn.btn-lg.btn-primary.btn-block#btnLogin(type='submit') Ingresar
+
+block js
+  script.
+    $('#btnLogin').click( function (){
+      if ( !validator.isEmail( $('#inputEmail')[0].value ) ) {
+        $('#inputEmail')[0].focus();
+        $('#messages_container').empty()
+          .append('<div role="alert" class="alert alert-danger" role="alert">No es un email valido.</div>');
+        return false;
+      }
+      return true;
+    });
+

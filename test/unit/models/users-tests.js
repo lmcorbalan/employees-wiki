@@ -18,26 +18,33 @@ describe('Users: models', function(){
 
 
     describe('Required Values', function(){
+      var initialCount;
       it('should have error when required value is not provided', function (done) {
+
+        //set initialCount
+        Users.count( function (err, count) { initialCount = count } );
 
         var user = new Users();
 
-        user.validate( function (err) {
-          Object.keys( Users.schema.paths ).forEach(function ( k ) {
-            if ( Users.schema.paths[k].isRequired ) {
+        user.save( function (err) {
+          Users.schema.requiredPaths().forEach(function ( k ) {
               err.errors.should.have.property( k ) &&
               err.errors[k].message.should.equal( k + " es obligatorio." );
-            }
           });
 
           done();
         })
       });
       it('should not create a new User', function (done) {
-          Users.find( function (err, docs) {
-            docs.length.should.be.exactly(0);
-            done();
+          Users.count( function (err, count) {
+            count.should.not.be.above( initialCount );
           });
+
+          done();
+          // Users.find( function (err, docs) {
+          //   docs.length.should.be.exactly(0);
+          //   done();
+          // });
       });
     });
 

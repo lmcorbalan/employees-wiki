@@ -6,6 +6,7 @@ html(lang='en')
     title= title
     //bower:css
     link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.css')
+    link(rel='stylesheet', href='/components/font-awesome/css/font-awesome.css')
     //endbower
 
     block css
@@ -32,34 +33,32 @@ html(lang='en')
             - if (user)
               ul.nav.navbar-nav.navbar-right
                 li
-                  a(href='/logout')
+                  a#logout(href='/logout')
                     span.glyphicon.glyphicon-log-out
     .container
-      //- - if ( messages.info || messages.success)
-      //-   div(class="alert alert-success" role="alert")=messages.info || messages.success
-      //- - if ( messages.error )
-      //-   div(class="alert alert-danger" role="alert")=messages.error
-      - if (typeof message !== 'undefined' && message !== null)
-        - if (typeof message.error !== 'undefined' && message.error.length)
-          - each msg in message.error
-              div.alert.alert-danger(role="alert")= msg
+      #messages_container
+        - if (typeof message !== 'undefined' && message !== null)
+          - if (typeof message.error !== 'undefined' && message.error.length)
+            - each msg in message.error
+                div.alert.alert-danger(role="alert")= msg
 
-        - if (typeof message.warning !== 'undefined' && message.warning.length)
-          - each msg in message.warning
-              div.alert.alert-warning(role="alert")= msg
+          - if (typeof message.warning !== 'undefined' && message.warning.length)
+            - each msg in message.warning
+                div.alert.alert-warning(role="alert")= msg
 
-        - if (typeof message.info !== 'undefined' && message.info.length)
-          - each msg in message.info
-              div.alert.alert-info(role="alert")= msg
+          - if (typeof message.info !== 'undefined' && message.info.length)
+            - each msg in message.info
+                div.alert.alert-info(role="alert")= msg
 
-        - if (typeof message.success !== 'undefined' && message.success.length)
-          - each msg in message.success
-              div.alert.alert-success(role="alert")= msg
+          - if (typeof message.success !== 'undefined' && message.success.length)
+            - each msg in message.success
+                div.alert.alert-success(role="alert")= msg
       block content
 
     //bower:js
     script(src='/components/jquery/dist/jquery.js')
     script(src='/components/bootstrap/dist/js/bootstrap.js')
+    script(src='/components/validator-js/validator.min.js')
     //endbower
 
     block js

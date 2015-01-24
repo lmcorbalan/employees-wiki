@@ -23,7 +23,7 @@ module.exports = function (grunt) {
           reporter: 'spec',
           clearRequireCache: true
         },
-        src: ['test/unit/**/*.js']
+        src: ['test/**/*.js']
       },
     },
     watch: {
@@ -61,11 +61,11 @@ module.exports = function (grunt) {
         files: ['bower.json'],
         tasks: ['wiredep']
       },
-      tests: {
-        options: { livereload: 35729 },
-        files: ['./test/**/*.js'],
-        tasks: ['mochaTest']
-      },
+      // tests: {
+      //   options: { livereload: 35729 },
+      //   files: ['./test/**/*.js'],
+      //   tasks: ['mochaTest']
+      // },
       scripts: {
         options: {
           livereload: 35729,
@@ -74,7 +74,7 @@ module.exports = function (grunt) {
         files: ['./app.js', './Gruntfile.js', './bin/www',
         './models/*.js', './routes/*.js', './forms/*.js'],
         // tasks: ['jshint','mochaTest','docco'],
-        tasks: ['mochaTest']
+        // tasks: ['mochaTest']
       }
     },
     wiredep: {
@@ -91,13 +91,13 @@ module.exports = function (grunt) {
 
   // On watch events, if the changed file is a test file then configure mochaTest to only
   // run the tests from that file. Otherwise run all the tests
-  var defaultTestSrc = grunt.config('mochaTest.test.src');
-  grunt.event.on('watch', function(action, filepath) {
-    grunt.config('mochaTest.test.src', defaultTestSrc);
-    if ( filepath.match('test/') && filepath !== 'test/utils/index.js' ) {
-      grunt.config('mochaTest.test.src', filepath);
-    }
-  });
+  // var defaultTestSrc = grunt.config('mochaTest.test.src');
+  // grunt.event.on('watch', function(action, filepath) {
+  //   grunt.config('mochaTest.test.src', defaultTestSrc);
+  //   if ( filepath.match('test/') && filepath !== 'test/utils/index.js' ) {
+  //     grunt.config('mochaTest.test.src', filepath);
+  //   }
+  // });
 
   grunt.registerTask('delayed-livereload', 'Live reload after the node server has restarted.', function () {
     var done = this.async();
@@ -114,5 +114,8 @@ module.exports = function (grunt) {
     }, 500);
 
   });
+
   grunt.registerTask('default', ['develop', 'watch']);
+  grunt.registerTask('test', ['mochaTest']);
+
 };

@@ -15,9 +15,11 @@
     "express": "~4.4.5",
     "express-flash": "0.0.2",
     "express-session": "^1.9.1",
+    "handlebars": "^2.0.0",
     "jade": "~1.3.1",
     "mongoose": "^3.8.19",
     "mongoose-fixtures": "0.0.1",
+    "mongoose-forms": "0.0.5",
     "mongoose-unique-validator": "^0.4.1",
     "mongoose-validator": "^1.0.3",
     "morgan": "~1.1.1",
@@ -37,6 +39,7 @@
     "mocha": "^2.0.1",
     "request": "~2.36.0",
     "should": "^4.4.2",
-    "time-grunt": "~0.3.2"
+    "time-grunt": "~0.3.2",
+    "zombie": "^2.5.1"
   }
 }

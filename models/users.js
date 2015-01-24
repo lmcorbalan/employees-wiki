@@ -15,13 +15,13 @@ var emailValidator = [
 
 var requireMssg = '{PATH} es obligatorio.';
 // FIXME
-//  - si puede ser administrador y empleado, deberia tener algun campo que lo identifique.
 //  - id autonumerico....ver mongoose-auto-increment
 var userSchema = new Schema({
        name: { type: String, required: requireMssg },
   last_name: { type: String, required: requireMssg },
       email: { type: String, required: requireMssg, index: true, unique: true, validate: emailValidator },
-   password: { type: String, required: requireMssg }
+   password: { type: String, required: requireMssg },
+   is_admin: { type: Boolean, default: false }
 });
 
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe ser unico.' });
@@ -68,12 +68,26 @@ userSchema.static.create = function (data, cb) {
     name     : data.name,
     last_name: data.last_name,
     email    : data.email,
-    password : data.password
+    password : data.password,
+    is_admin : data.is_admin
   });
 
   e.save( cb );
 }
 
+/**
+* Users.create(data, function(){}):
+*/
+userSchema.static( 'findEmployees', function (cb) {
+  var Users = this;
+
+  Users.find( {is_admin: false}, cb );
+});
+
+/** TODO
+* Users.delete(email, function(){}):
+* Controlar que el usuario que se esta intentando eliminar no sea el logueado
+*/
 
 var userModel  = mongoose.model( "Users", userSchema );
 module.exports = userModel;

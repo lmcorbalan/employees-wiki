@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1= title
+  hr
+  table.table.table-hover.table-condensed
+    thead
+      tr
+        th Nombre
+        th Apellido
+        th Email
+        th Opciones
+    tbody
+      - employees.forEach( function (employee) {
+      tr
+        td=employee.name
+        td=employee.last_name
+        td=employee.email
+        td
+          a.action.delete( href="employee/delete/" + employee._id data-name=employee.name )
+            span.glyphicon.glyphicon-remove
+
+          a.action.edit( href="employee/edit/" + employee._id )
+            span.glyphicon.glyphicon-edit
+      - } )
+
+block js
+  script.
+    $('.delete').click( function (){
+      return confirm( 'Esta seguro que quiere borrar a ' + $('.delete').data("name") )
+    });
+
