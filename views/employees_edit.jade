@@ -1,0 +1,80 @@
+extends layout
+
+block content
+  h1= title
+  hr
+  - console.log('doc', doc)
+  form( action="", method="post" class="form-horizontal" role="form", name="employee_for" )
+    .form-group#fg_name
+      label.col-sm-2.control-label( for="name" ) Nombre:
+      .col-sm-10
+        input#name.form-control( type="text", name="name", value=doc.name )
+        span#help_name.help-block
+    .form-group#fg_last_name
+      label.col-sm-2.control-label( for="last_name" ) Apellido:
+      .col-sm-10
+        input#last_name.form-control(type="text", name="last_name", value=doc.last_name )
+        span#help_last_name.help-block
+    .form-group#fg_email
+      label.col-sm-2.control-label( for="email" ) Email:
+      .col-sm-10
+        input#email.form-control(type="email", name="email", value=doc.email )
+        span#help_email.help-block
+
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        input.btn.btn-primary( type="submit", value="Guardar" )
+
+block js
+  script(src="/validate.min.js")
+
+  - var errors = doc && doc.errors ? doc.errors : '';
+  - if (errors)
+      script.
+        var  errors = JSON.parse( '!{errors}' );
+        console.log(errors)
+        Object.keys(errors).forEach(function(k){
+          $('#fg_' + k).addClass('has-error');
+          $('#help_' + k).append(errors[k].message)
+        });
+
+  script.
+
+    // FIXME - pasar a un archivo aparte...
+    require('validate-js');
+    var validator = new FormValidator('employees_form', [{
+      name: 'name',
+      display: 'Nombre',
+      rules: 'required|max_length[50]|alpha_dash'
+    }, {
+      name: 'last_name',
+      display: 'Apellido',
+      rules: 'required|max_length[50]|alpha_dash'
+    }, {
+      name: 'email',
+      display: 'Email',
+      rules: 'required|valid_email'
+    }], function(errors, event) {
+      $('.form-group').removeClass('has-error');
+      $('.help-block').empty();
+
+      if (errors.length > 0) {
+          errors.forEach(function (error){
+            console.log(error)
+            var el   = $('#' + error.id);
+            var help = $('#help_' + error.id);
+            el.closest('.form-group').addClass('has-error');
+            help.append(error.message);
+          })
+          $('#' + errors[0].id).focus();
+      }
+    });
+
+    validator
+      .setMessage('required', 'Debe ingresar %s.')
+      .setMessage('min_length', '%s debe contener al menos %s caracteres.')
+      .setMessage('max_length', '%s debe contener al lo sumo %s caracteres.')
+      .setMessage('alpha_dash', '%s solo puede contener caracteres alfanumericos, _ y -.');
+
+
+
