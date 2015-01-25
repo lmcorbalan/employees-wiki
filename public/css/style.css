@@ -25,6 +25,7 @@ body {
 .form-signin .checkbox {
   margin-bottom: 10px;
 }
+.form-signin .form-group { margin-bottom: 0; }
 .form-signin .checkbox {
   font-weight: normal;
 }

@@ -1,23 +1,51 @@
 extends layout
 
 block content
-  form.form-signin(action='/admin',method='post' role='form')
+  form.form-signin(action='/admin',method='post' role='form', name='signin_form')
     h2.form-signin-heading= title
-    label.sr-only(for='inputEmail') Email
-    input#inputEmail.form-control(type='email', name="email", placeholder='Email', required='', autofocus='')
-    label.sr-only(for='inputPassword') Password
-    input#inputPassword.form-control(type='password', name="password", placeholder='Password', required='')
+    .form-group
+      label.sr-only(for='inputEmail') Email
+      input#inputEmail.form-control(type='email', name="email", placeholder='Email', aria-describedby="helpBlock")
+
+    .form-group
+      label.sr-only(for='inputPassword') Password
+      input#inputPassword.form-control(type='password', name="password", placeholder='Password', aria-describedby="helpBlock")
+
+    .form-group
+      span#helpBlock.help-block
+
     button.btn.btn-lg.btn-primary.btn-block#btnLogin(type='submit') Ingresar
 
+
 block js
+  script(src="/validate.min.js")
   script.
-    $('#btnLogin').click( function (){
-      if ( !validator.isEmail( $('#inputEmail')[0].value ) ) {
-        $('#inputEmail')[0].focus();
-        $('#messages_container').empty()
-          .append('<div role="alert" class="alert alert-danger" role="alert">No es un email valido.</div>');
-        return false;
+
+    // FIXME - pasar a un archivo aparte...
+    require('validate-js');
+    var validator = new FormValidator('signin_form', [{
+      name: 'email',
+      display: 'Email',
+      rules: 'required|valid_email'
+    }, {
+      name: 'password',
+      display: 'Password',
+      rules: 'required|min_length[6]'
+    }], function(errors, event) {
+      $('.form-group').removeClass('has-error');
+      $('#helpBlock').empty();
+
+      if (errors.length > 0) {
+          var el = $('#'+errors[0].id);
+          el.parent().addClass('has-error');
+          $('#helpBlock').append(errors[0].message).parent().addClass('has-error');
+          el.focus();
       }
-      return true;
+
     });
+
+    validator
+      .setMessage('required', 'Debe ingresar %s.')
+      .setMessage('valid_email', 'No es un email validao.')
+      .setMessage('min_length', '%s debe contener al menos %s caracteres.');
 

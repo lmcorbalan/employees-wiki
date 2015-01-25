@@ -78,10 +78,38 @@ userSchema.static.create = function (data, cb) {
 /**
 * Users.create(data, function(){}):
 */
-userSchema.static( 'findEmployees', function (cb) {
+userSchema.static( 'findEmployees', function (query, cb) {
   var Users = this;
 
-  Users.find( {is_admin: false}, cb );
+  query.is_admin = false;
+  Users.find( query, cb );
+});
+
+/**
+* Users.updateEmployee(data, function(){}):
+*/
+userSchema.static( 'updateEmployee', function (data, cb) {
+  var Users = this;
+
+  Users.findEmployees({ _id: data.id }, function (err, docs) {
+    console.log('updateEmployee');
+    if (err) cd(err);
+    var emp = docs[0];
+
+    emp.name      = data.name;
+    emp.last_name = data.last_name;
+    emp.email     = data.email;
+
+    console.log(emp)
+
+    emp.save(cb);
+  });
+
+  // Users.update(
+  //   { _id: data.id, is_admin: false },
+  //   { $set: { name: data.name, last_name: data.last_name, email: data.email } },
+  //   cb
+  // )
 });
 
 /** TODO

@@ -4,6 +4,7 @@ var favicon      = require('serve-favicon');
 var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
+var browserify   = require('browserify-middleware');
 
 var utils        = require('./utils');
 var config       = exports.config = require('./config');
@@ -45,6 +46,9 @@ app.use(session({ secret: config.session.secret, resave: true, saveUninitialized
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+
+//provide browserified versions of all the files in a directory
+app.use( '/validate.min.js', browserify(['validate-js']) );
 
 // Connect Flash interceptor
 app.use( function(req, res, next) {
