@@ -12,6 +12,7 @@ var session      = require('express-session')
 // var flash        = require('express-flash');
 var flash        = require('connect-flash');
 var passport     = exports.passport = require('passport');
+var params = require('express-params');
 
 /**
 * Database Connection
@@ -27,6 +28,7 @@ if (config.fixtures && config.fixtures === "enabled") {
 
 // Express App
 var app = exports.app = express();
+params.extend(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

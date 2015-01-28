@@ -10,14 +10,9 @@ var adminAuth = function (req, res, next) {
   } else {
     //not authorized...redirect
     req.flash( 'error', 'Seccion no autorizada' );
-    res.redirect('/')
+    res.redirect('/admin')
   }
 }
-
-// Login
-app.get( '/', function (req, res) {
-  res.render('index', { title: 'INDEX'})
-})
 
 /****** Panel ********/
 
@@ -103,3 +98,29 @@ app.get( '/panel/employees/delete/:id', adminAuth, function (req, res) {
   })
 });
 
+/****** Site ********/
+
+app.get( '/', function (req, res) {
+  res.render('index')
+})
+
+
+app.get( '/employees/search', function (req, res) {
+  Users.searchEmployees( '', function (err, docs) {
+    if ( err ) {
+      res.status(500).json({ error: err })
+    } else {
+      res.json(docs);
+    }
+  });
+})
+
+app.get( '/employees/search/:keyword', function (req, res) {
+  Users.searchEmployees( req.params.keyword , function (err, docs) {
+    if ( err ) {
+      res.status(500).json({ error: err })
+    } else {
+      res.json(docs);
+    }
+  });
+})

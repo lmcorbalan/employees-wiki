@@ -1,5 +1,62 @@
-extends layout
+doctype html
+html(lang='es' ng-app="employees_search")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width')
+    title= title
+    //bower:css
+    link(rel='stylesheet', href='/components/bootstrap/dist/css/bootstrap.css')
+    link(rel='stylesheet', href='/components/font-awesome/css/font-awesome.css')
+    //endbower
 
-block content
-  h1= title
-  p Welcome to #{title}
+    link(rel='stylesheet', href='/css/style.css')
+
+    script(src='http://localhost:35729/livereload.js')
+  body
+    nav.navbar.navbar-inverse(role='navigation')
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='/') Staff's Wiki
+        #navbar.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href='/admin') Administracion
+          - if (user)
+            ul.nav.navbar-nav.navbar-right
+              li
+                a#logout(href='/logout')
+                  span.glyphicon.glyphicon-log-out
+    .container.marketing(ng-controller="EmployeesSearchCtrl")
+      .jumbotron.text-center
+        h1="Wiki Empleados"
+
+        input( type="text" ng-model="employees" placeholder="buscar empleado..." typeahead="eployee as employee.label for employee in getEmployees($viewValue)" typeahead-loading="loadingEmployees"  typeahead-template-url="employee.html" class="form-control col-lg-6" )
+        i(ng-show="loadingEmployees" class="glyphicon glyphicon-refresh")
+
+      .row(ng-repeat="emp_group in employees_data | groupBy:4")
+        .col-lg-4(ng-repeat="employee_data in emp_group")
+          img( ng-src="{{employee_data.gravatar}}&s=200" class="img-circle gravatar big" )
+          h2="{{employee_data.full_name}}"
+          p="{{employee_data.email}}"
+
+    script(src='/components/jquery/dist/jquery.js')
+    script(src='/components/bootstrap/dist/js/bootstrap.js')
+    script(src='/components/angular/angular.js')
+    script(src='/components/angular-bootstrap/ui-bootstrap-tpls.js')
+    script(src='/components/angular-filter/dist/angular-filter.min.js')
+
+    script(src='/js/employees_search.js')
+    |<script type="text/ng-template" id="employee.html">
+    |  <div class="typeahead_label">
+    |    <img ng-src="{{match.model.gravatar}}&s=20">
+    |    <span class="full_serach" bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+    |  <div>
+    |</script>
+
+
+
