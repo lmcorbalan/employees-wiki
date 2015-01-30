@@ -3,7 +3,6 @@ var app           = module.parent.exports.app
 
 // Metodo interceptor Passaport
 var adminAuth = function (req, res, next) {
-  console.log('req.user', req.user)
   //authorized role
   if ( typeof req.user != "undefined" && req.user.is_admin ) {
     next()
@@ -78,7 +77,6 @@ app.post( '/panel/employees/edit/:id', adminAuth, function (req, res) {
         req.flash( "info", "La empleado se ha modificado correctamente" );
         res.redirect( '/panel/employees' );
       } else {
-        console.log(err)
         data.errors = typeof err.errors !== 'undefined' ? JSON.stringify(err.errors) : 'undefined';
         req.flash( "error", "Ha ocurrido un error al intentar crear el empleado!" );
         res.render( 'employees_edit', { title: 'Editar Personal', doc: data } );

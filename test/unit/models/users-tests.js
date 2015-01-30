@@ -2,7 +2,6 @@
 // -----------------------------
 var should = require('should');
 
-// require('../../../utils/dbconnect');
 require('../../utils');
 
 var Users;
@@ -13,6 +12,7 @@ describe('Users: models', function(){
     // Before all tests
     Users = require("../../../models/users.js");
   });
+
 
   describe('Validations', function(){
 
@@ -41,10 +41,6 @@ describe('Users: models', function(){
           });
 
           done();
-          // Users.find( function (err, docs) {
-          //   docs.length.should.be.exactly(0);
-          //   done();
-          // });
       });
     });
 
@@ -94,6 +90,7 @@ describe('Users: models', function(){
         user = createdUser;
         done();
       });;
+
 
     });
   });

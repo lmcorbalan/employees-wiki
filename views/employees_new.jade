@@ -41,14 +41,13 @@ block js
   - if (errors)
       script.
         var  errors = JSON.parse( '!{errors}' );
-        console.log(errors)
         Object.keys(errors).forEach(function(k){
           $('#fg_' + k).addClass('has-error');
           $('#help_' + k).append(errors[k].message)
         });
 
   script.
-    // FIXME - pasar a un archivo aparte...
+
     require('validate-js');
     var validator = new FormValidator('employee_form', [{
       name: 'name',
@@ -65,7 +64,7 @@ block js
     }, {
       name: 'password',
       display: 'Password',
-      rules: 'required|min_length[8]|alpha_dash' // FIXME - agregar seguridad a la contraseña
+      rules: 'required|min_length[8]|alpha_dash'
     }, {
       name: 'confirm',
       display: 'Confirmaci&oacute;n',
@@ -76,7 +75,6 @@ block js
 
       if (errors.length > 0) {
           errors.forEach(function (error){
-            console.log(error)
             var el   = $('#' + error.id);
             var help = $('#help_' + error.id);
             el.closest('.form-group').addClass('has-error');

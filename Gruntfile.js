@@ -26,6 +26,15 @@ module.exports = function (grunt) {
         src: ['test/**/*.js']
       },
     },
+    test:{
+      watch: {
+        scripts: {
+          files: ['./app.js', './Gruntfile.js', './bin/www',
+          './models/*.js', './routes/*.js', './forms/*.js', 'test/**/*.js'],
+          tasks: ['mochaTest']
+        }
+      }
+    },
     watch: {
       options: {
         nospawn: true,
@@ -62,8 +71,8 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       // tests: {
-      //   options: { livereload: 35729 },
-      //   files: ['./test/**/*.js'],
+      //   files: ['./app.js', './Gruntfile.js', './bin/www',
+      //           './models/*.js', './routes/*.js', './forms/*.js', 'test/**/*.js'],
       //   tasks: ['mochaTest']
       // },
       scripts: {
@@ -81,6 +90,17 @@ module.exports = function (grunt) {
       target: {
         src: ['views/layout.jade'],
         ignorePath: '../public'
+      }
+    },
+    concurrent: {
+      options: {
+        logConcurrentOutput: true
+      },
+      dev: {
+        tasks: ["watch:server","watch:js","watch:css","watch:views","watch:bower","watch:scripts"]
+      },
+      test: {
+        tasks: ["watch:test"]
       }
     }
   });
@@ -115,7 +135,7 @@ module.exports = function (grunt) {
 
   });
 
-  grunt.registerTask('default', ['develop', 'watch']);
-  grunt.registerTask('test', ['mochaTest']);
+  grunt.registerTask( 'default', ['develop', 'watch'] );
+  // grunt.registerTask( 'testea', ['concurrent:test'] );
 
 };

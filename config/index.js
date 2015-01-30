@@ -1,7 +1,5 @@
 var config = {};
 
-console.log( 'NODE_ENV ANTES', process.env.NODE_ENV );
-
 switch (process.env.NODE_ENV) {
   case 'development':
     config = require('./config-dev.json');
@@ -19,7 +17,5 @@ switch (process.env.NODE_ENV) {
 }
 
 config.envflag = process.env.NODE_ENV;
-
-console.log( 'NODE_ENV', process.env.NODE_ENV );
 
 module.exports = config;

@@ -18,15 +18,10 @@ passport.use( 'UserLogin', new LocalStrategy(
     Users.findOne({ email: username }, function (err, user) {
       if (err)   return done(err);
 
-      console.log( 'find err', err  )
-      console.log( 'find user', user )
-
       if (!user) return done(null, false, { message: 'Email incorrecto' });
 
       user.authenticate(password, function (err, isMatch) {
         if (err)   return done(err);
-
-        console.log('authenticate', isMatch)
 
         if (isMatch) {
           return done(null, user)

@@ -9,42 +9,29 @@
 process.env.NODE_ENV = 'test';
 
 var config   = require('../../config'),
-    utils    = require('../../utils'),
-    mongoose = require('mongoose');
-    // should   = require('should');
+    mongoose = require('mongoose'),
+    utils    = require('../../utils');
 
-// module.exports = should;
+var dbConex = exports.dbConex = utils.dbConnection(
+  config.db.domain,
+  config.db.name,
+  config.db.user,
+  config.db.pass
+);
 
 before(function (done) {
+  var clearDB  = require('mocha-mongoose')( utils.dbConnectionString(
+    config.db.domain,
+    config.db.name,
+    config.db.user,
+    config.db.pass)
+  );
 
-  function clearDB() {
-    for (var i in mongoose.connection.collections) {
-      mongoose.connection.collections[i].remove(function() {});
-    }
-    return done();
-  }
+  return done();
 
-  if (mongoose.connection.readyState === 0) {
-    var connStr = utils.dbConnectionString(
-      config.db.domain,
-      config.db.name,
-      config.db.user,
-      config.db.pass
-    );
-
-    mongoose.connect( connStr, function (err) {
-      if (err) {
-        throw err;
-      }
-      return clearDB();
-    });
-
-  } else {
-    return clearDB();
-  }
 });
 
 after(function (done) {
-  mongoose.disconnect();
+  dbConex.disconnect();
   return done();
 });

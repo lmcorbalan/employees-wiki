@@ -4,8 +4,6 @@ var config        = module.parent.exports.config
 // Load from shared first
 // fixtureLoader.load('./shared');
 
-console.log('fixtures', process.env.NODE_ENV )
-
 // And then override
 switch(process.env.NODE_ENV) {
   case 'development':

@@ -2,8 +2,6 @@ var should = require('should')
   , config = require('../../config')
   , Browser = require('zombie');
 
-// require('../../../utils/dbconnect');
-require('../utils');
 
 var Users
   , admin
@@ -12,20 +10,6 @@ var Users
 
 describe( 'Admin Panel', function () {
   before( function(){
-    // Before all tests
-    Users = require("../../models/users.js");
-    var admin_n = Math.floor((Math.random() * 10) + 1)
-    var a =
-      { name      : 'admin_' + admin_n
-      , last_name : 'admin_last_name_' + admin_n
-      , email     : 'admin_' + admin_n + '@admin.com'
-      , password  : '123456'
-      , is_admin  : true
-      }
-
-    Users.create( a, function (err, createdUser) {
-      admin = createdUser;
-    });
 
     browser = new Browser({debug:false});
 
@@ -42,7 +26,7 @@ describe( 'Admin Panel', function () {
           return browser.pressButton('Ingresar');
         })
         .then(function () {
-          browser.text('div.alert.alert-danger').should.equal("No es un email valido.")
+          browser.text('div#helpBlock').should.equal("No es un email valido.")
         })
         .then(done, done);
     });
@@ -67,7 +51,7 @@ describe( 'Admin Panel', function () {
         .then(function () {
           browser.success.should.be.ok;
 
-          browser.fill('email', admin.email);
+          browser.fill('email', 'admin@admin.com');
           browser.fill('password', 'foobar');
           return browser.pressButton('Ingresar');
         })
@@ -84,7 +68,7 @@ describe( 'Admin Panel', function () {
           // assert.ok(browser.success);
           browser.success.should.be.ok;
           // Fill email, password and submit form
-          browser.fill('email', admin.email);
+          browser.fill('email', 'admin@admin.com');
           browser.fill('password', '123456');
           return browser.pressButton('Ingresar');
         })

@@ -20,7 +20,6 @@ var params = require('express-params');
 require('./utils/dbconnect');
 
 // DB Fixtures
-console.log(config.fixtures);
 if (config.fixtures && config.fixtures === "enabled") {
   // Load Fixtures
   require('./fixtures');
@@ -66,7 +65,6 @@ app.use( function(req, res, next) {
 
     } )
 
-  console.log( 'message interceptor', res.locals.message );
   next();
 });
 

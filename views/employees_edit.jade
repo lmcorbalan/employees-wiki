@@ -3,7 +3,6 @@ extends layout
 block content
   h1= title
   hr
-  - console.log('doc', doc)
   form( action="", method="post" class="form-horizontal" role="form", name="employee_for" )
     .form-group#fg_name
       label.col-sm-2.control-label( for="name" ) Nombre:
@@ -32,7 +31,6 @@ block js
   - if (errors)
       script.
         var  errors = JSON.parse( '!{errors}' );
-        console.log(errors)
         Object.keys(errors).forEach(function(k){
           $('#fg_' + k).addClass('has-error');
           $('#help_' + k).append(errors[k].message)
@@ -60,7 +58,6 @@ block js
 
       if (errors.length > 0) {
           errors.forEach(function (error){
-            console.log(error)
             var el   = $('#' + error.id);
             var help = $('#help_' + error.id);
             el.closest('.form-group').addClass('has-error');

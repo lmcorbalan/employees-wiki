@@ -100,15 +100,12 @@ userSchema.static( 'updateEmployee', function (data, cb) {
   var Users = this;
 
   Users.findEmployees({ _id: data.id }, function (err, docs) {
-    console.log('updateEmployee');
     if (err) cd(err);
     var emp = docs[0];
 
     emp.name      = data.name;
     emp.last_name = data.last_name;
     emp.email     = data.email;
-
-    console.log(emp)
 
     emp.save(cb);
   });
